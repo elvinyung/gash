@@ -11,7 +11,9 @@ func main() {
 
     t := gash.Create(1000)
     t.Insert("foo", 4)
-    t.Insert("quux", "asdfofsdja")
+    t.Insert("bar", "asdfofsdja")
+    t.Insert("baz", []int{1,2,3})
     fmt.Println(t.Find("foo"))
-    fmt.Println(t.Find("quux"))
+    fmt.Println(t.Find("bar"))
+    fmt.Println(t.Find("baz"))
 }
