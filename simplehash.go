@@ -18,8 +18,19 @@ func Create(capacity int) SimpleHash {
 
 func (table SimpleHash) Insert(k string, v interface{}) {
     index := Djb2(k) % table.capacity
-    pair := KvPair{k, v}
-    table.items[index] = append(table.items[index], pair)
+    item := KvPair{k, v}
+
+    isSet := false
+    for searchIndex, pair := range table.items[index] {
+        if pair.Key == k {
+            table.items[index][searchIndex].Value = v
+            isSet = true
+            break
+        }
+    }
+    if (!isSet) {
+        table.items[index] = append(table.items[index], item)
+    }
 }
 
 func (table SimpleHash) Find(k string) interface{} {
@@ -28,6 +39,7 @@ func (table SimpleHash) Find(k string) interface{} {
     for _, pair := range table.items[index] {
         if pair.Key == k {
             result = pair
+            break
         }
     }
     return result.Value
