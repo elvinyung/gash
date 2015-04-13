@@ -44,3 +44,14 @@ func (table SimpleHash) Find(k string) interface{} {
     }
     return result.Value
 }
+
+func (table SimpleHash) Remove(k string) {
+    index := Djb2(k) % table.capacity
+    for searchIndex, pair := range table.items[index] {
+        if pair.Key == k {
+            table.items[index] = append(table.items[index][:searchIndex], 
+                                        table.items[index][searchIndex+1:]...)
+            break
+        }
+    }
+}
