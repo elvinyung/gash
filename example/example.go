@@ -9,7 +9,7 @@ func main() {
     p := gash.KvPair{"samplekey", "samplevalue"}
     fmt.Println(p.Key)
 
-    t := gash.CreateSimpleHash(1000)
+    t := gash.CreateSimpleHash(1000, gash.Djb2)
     t.Insert("foo", 4)
     t.Insert("bar", "asdfofsdja")
     t.Insert("baz", []int{1,2,3})
