@@ -11,3 +11,13 @@ func Djb2(s string) int {
 
     return hash
 }
+
+// sdbm
+func Sdbm(s string) int {
+    hash := 0
+    for _, c := range s {
+        hash += (hash * 65599) + int(c)
+    }
+
+    return hash
+}
