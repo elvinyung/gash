@@ -39,7 +39,7 @@ func (table SimpleHash) Find(k string) interface{} {
     index := Djb2(k) % table.capacity
     for _, pair := range table.items[index] {
         if pair.Key == k {
-            return pair
+            return pair.Value
         }
     }
     return nil
