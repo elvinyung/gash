@@ -5,18 +5,20 @@ package gash
 type ClosedHash struct {
     items []*KvPair
     capacity int
+    fn HashFn
 }
 
-func CreateClosedHash(capacity int) ClosedHash {
+func CreateClosedHash(capacity int, fn HashFn) ClosedHash {
     table := ClosedHash{}
     table.capacity = capacity
     table.items = make([]*KvPair, capacity)
+    table.fn = fn
 
     return table
 }
 
 func (table ClosedHash) Insert(k string, v interface{}) {
-    hash := Djb2(k) % table.capacity
+    hash := table.fn(k) % table.capacity
     index := hash
 
     // find first empty space
@@ -38,7 +40,7 @@ func (table ClosedHash) Insert(k string, v interface{}) {
 }
 
 func (table ClosedHash) Find(k string) interface{} {
-    hash := Djb2(k) % table.capacity
+    hash := table.fn(k) % table.capacity
     index := hash
 
     for (table.items[index] != nil && table.items[index].Key != k) {
@@ -59,7 +61,7 @@ func (table ClosedHash) Find(k string) interface{} {
 }
 
 func (table ClosedHash) Remove(k string) {
-    hash := Djb2(k) % table.capacity
+    hash := table.fn(k) % table.capacity
     index := hash
 
     for (table.items[index] != nil && table.items[index].Key != k) {
