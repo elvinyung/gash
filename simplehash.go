@@ -1,5 +1,7 @@
 package gash
 
+// A simple chained hash.
+
 type SimpleHash struct {
     items [][]KvPair
     capacity int
