@@ -5,21 +5,23 @@ package gash
 type SimpleHash struct {
     items [][]*KvPair
     capacity int
+    fn HashFn
 }
 
-func CreateSimpleHash(capacity int) SimpleHash {
+func CreateSimpleHash(capacity int, fn HashFn) SimpleHash {
     table := SimpleHash{}
     table.capacity = capacity
     table.items = make([][]*KvPair, capacity)
     for index := range table.items {
         table.items[index] = []*KvPair{}
     }
+    table.fn = fn
 
     return table
 }
 
 func (table SimpleHash) Insert(k string, v interface{}) {
-    index := Djb2(k) % table.capacity
+    index := table.fn(k) % table.capacity
     item := KvPair{k, v}
 
     isSet := false
@@ -36,7 +38,7 @@ func (table SimpleHash) Insert(k string, v interface{}) {
 }
 
 func (table SimpleHash) Find(k string) interface{} {
-    index := Djb2(k) % table.capacity
+    index := table.fn(k) % table.capacity
     for _, pair := range table.items[index] {
         if pair.Key == k {
             return pair.Value
@@ -46,7 +48,7 @@ func (table SimpleHash) Find(k string) interface{} {
 }
 
 func (table SimpleHash) Remove(k string) {
-    index := Djb2(k) % table.capacity
+    index := table.fn(k) % table.capacity
     for searchIndex, pair := range table.items[index] {
         if pair.Key == k {
             table.items[index] = append(table.items[index][:searchIndex], 
