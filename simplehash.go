@@ -35,14 +35,12 @@ func (table SimpleHash) Insert(k string, v interface{}) {
 
 func (table SimpleHash) Find(k string) interface{} {
     index := Djb2(k) % table.capacity
-    var result KvPair
     for _, pair := range table.items[index] {
         if pair.Key == k {
-            result = pair
-            break
+            return pair
         }
     }
-    return result.Value
+    return nil
 }
 
 func (table SimpleHash) Remove(k string) {
