@@ -2,6 +2,8 @@ package gash
 
 // a collection of various hash function implementations.
 
+type HashFn func(string) int
+
 // a simple djb2 implementation
 func Djb2(s string) int {
     hash := 5381
