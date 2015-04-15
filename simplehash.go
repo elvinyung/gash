@@ -3,16 +3,16 @@ package gash
 // A simple chained hash.
 
 type SimpleHash struct {
-    items [][]KvPair
+    items [][]*KvPair
     capacity int
 }
 
-func Create(capacity int) SimpleHash {
+func CreateSimpleHash(capacity int) SimpleHash {
     table := SimpleHash{}
     table.capacity = capacity
-    table.items = make([][]KvPair, capacity)
+    table.items = make([][]*KvPair, capacity)
     for index := range table.items {
-        table.items[index] = []KvPair{}
+        table.items[index] = []*KvPair{}
     }
 
     return table
@@ -31,7 +31,7 @@ func (table SimpleHash) Insert(k string, v interface{}) {
         }
     }
     if (!isSet) {
-        table.items[index] = append(table.items[index], item)
+        table.items[index] = append(table.items[index], &item)
     }
 }
 
