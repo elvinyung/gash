@@ -21,3 +21,23 @@ func Sdbm(s string) int {
 
     return hash
 }
+
+// hash by sum of character values
+func SumHash(s string) int {
+    hash := 0
+    for _, c := range s {
+        hash += int(c)
+    }
+
+    return hash
+}
+
+// hash by product of character values
+func ProductHash(s string) int {
+    hash := 1
+    for _, c := range s {
+        hash *= int(c)
+    }
+
+    return hash
+}
